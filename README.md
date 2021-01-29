@@ -24,3 +24,26 @@ C#
 13. Struct
 14. enum
 
+UNITY 3D  
+
+C# - Java 
+변수 
+함수 
+unity c# 사용하는 방법 알아보기.
+
+교육 app -> 
+Data 
+
+time : 60sec
+stage : 1
+GO  forward, backward, left turn, right turn
+success : forward, forward, Go
+failed : forward, left turn, Go 
+         left turn, Go
+
+xml, json, txt
+Data Server : 쌓인 데이터 개인 볼 수있게.
+
+
+
+Server? 어떻게 받을수 있을까?
