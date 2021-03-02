@@ -72,9 +72,6 @@ public class Level : MonoBehaviour
         newLevel.EndTile = endTile;
         var jsonValue = JsonUtility.ToJson(newLevel);
 
-//#if UNITY_ANDROID
-//        SAVE_FOLDER = Application.persistentDataPath + "/Resources/Levels.json";
-//#else
         SAVE_FOLDER = Application.dataPath + "/Resources/Levels.json";
 //#endif
         //if (!Directory.Exists(SAVE_FOLDER))

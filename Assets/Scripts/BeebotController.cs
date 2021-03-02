@@ -17,6 +17,9 @@ public class BeebotController : MonoBehaviour
 {
     public RectTransform beebot;
     [SerializeField] List<Direction> directions = new List<Direction>();
+    [SerializeField] List<Sprite> arrowSprite = new List<Sprite>();
+    [SerializeField] List<Image> moveArrow = new List<Image>();
+    bool isStop;
 
     // Start is called before the first frame update
     void Start()
@@ -33,21 +36,29 @@ public class BeebotController : MonoBehaviour
     public void Forward()
     {
         directions.Add(Direction.Forward);
+        moveArrow[directions.Count - 1].sprite = arrowSprite[1];
+        moveArrow[directions.Count - 1].color = Color.white;
     }
 
     public void Backward()
     {
         directions.Add(Direction.Backward);
+        moveArrow[directions.Count - 1].sprite = arrowSprite[3];
+        moveArrow[directions.Count - 1].color = Color.white;
     }
 
     public void LeftTurn()
     {
         directions.Add(Direction.TurnLeft);
+        moveArrow[directions.Count - 1].sprite = arrowSprite[0];
+        moveArrow[directions.Count - 1].color = Color.white;
     }
 
     public void RightTurn()
     {
         directions.Add(Direction.TurnRight);
+        moveArrow[directions.Count - 1].sprite = arrowSprite[2];
+        moveArrow[directions.Count - 1].color = Color.white;
     }
 
     public void PlayBeebot()
@@ -59,87 +70,151 @@ public class BeebotController : MonoBehaviour
     {
         for (int i = 0; i < directions.Count; i++)
         {
+            moveArrow[i].color = new Color(0.8f, 1f, 0f, 1f);
             switch (directions[i])
             {
                 case Direction.Forward:
-                    BeebotForward();
+                    StartCoroutine(BeebotForward());
                     break;
 
                 case Direction.Backward:
-                    BeebotBackward();
+                    StartCoroutine(BeebotBackward());
                     break;
 
                 case Direction.TurnLeft:
-                    BeebotLeftTurn();
+                    StartCoroutine(BeebotLeftTurn());
                     break;
 
                 case Direction.TurnRight:
-                    BeebotRightTurn();
+                    StartCoroutine(BeebotRightTurn());
                     break;
 
                 default:
                     break;
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitUntil(() => isStop == true);
         }
 
         directions.Clear();
     }
-
-    public void BeebotForward()
+    
+    IEnumerator BeebotForward()
     {
+        isStop = false;
         if ((int)beebot.localEulerAngles.z == 90)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x - 150, beebot.anchoredPosition.y);
+            var value = beebot.anchoredPosition.x - 150;
+            while (beebot.anchoredPosition.x != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(value, beebot.anchoredPosition.y), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 270)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x + 150, beebot.anchoredPosition.y);
+            var value = beebot.anchoredPosition.x + 150;
+            while (beebot.anchoredPosition.x != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(value, beebot.anchoredPosition.y), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 0)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x, beebot.anchoredPosition.y + 150);
+            var value = beebot.anchoredPosition.y + 150;
+            while (beebot.anchoredPosition.y != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(beebot.anchoredPosition.x, value), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 180)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x, beebot.anchoredPosition.y - 150);
+            var value = beebot.anchoredPosition.y - 150;
+            while (beebot.anchoredPosition.y != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(beebot.anchoredPosition.x, value), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
+        
     }
 
-    public void BeebotBackward()
+    IEnumerator BeebotBackward()
     {
+        isStop = false;
         if ((int)beebot.localEulerAngles.z == 90)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x + 150, beebot.anchoredPosition.y);
+            var value = beebot.anchoredPosition.x + 150;
+            while (beebot.anchoredPosition.x != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(value, beebot.anchoredPosition.y), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 270)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x - 150, beebot.anchoredPosition.y);
+            var value = beebot.anchoredPosition.x - 150;
+            while (beebot.anchoredPosition.x != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(value, beebot.anchoredPosition.y), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 0)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x, beebot.anchoredPosition.y - 150);
+            var value = beebot.anchoredPosition.y - 150;
+            while (beebot.anchoredPosition.y != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(beebot.anchoredPosition.x, value), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
 
         if ((int)beebot.localEulerAngles.z == 180)
         {
-            beebot.anchoredPosition = new Vector2(beebot.anchoredPosition.x, beebot.anchoredPosition.y + 150);
+            var value = beebot.anchoredPosition.y + 150;
+            while (beebot.anchoredPosition.y != value)
+            {
+                beebot.anchoredPosition = Vector2.MoveTowards(beebot.anchoredPosition, new Vector2(beebot.anchoredPosition.x, value), 100 * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            isStop = true;
         }
     }
 
-    public void BeebotLeftTurn()
+    IEnumerator BeebotLeftTurn()
     {
-        beebot.localEulerAngles = new Vector3(beebot.localEulerAngles.x, beebot.localEulerAngles.y, beebot.localEulerAngles.z + 90);
+        isStop = false;
+        for (int i = 0; i < 90; i++)
+        {
+            beebot.Rotate(new Vector3(beebot.localEulerAngles.x, beebot.localEulerAngles.y, beebot.localEulerAngles.y + 1));
+            yield return new WaitForEndOfFrame();
+        }
+        isStop = true;
     }
 
-    public void BeebotRightTurn()
+    IEnumerator BeebotRightTurn()
     {
-        beebot.localEulerAngles = new Vector3(beebot.localEulerAngles.x, beebot.localEulerAngles.y, beebot.localEulerAngles.z - 90);
+        isStop = false;
+        for (int i = 0; i < 90; i++) 
+        {
+            beebot.Rotate(new Vector3(beebot.localEulerAngles.x, beebot.localEulerAngles.y, beebot.localEulerAngles.y - 1));
+            yield return new WaitForEndOfFrame();
+        }
+        isStop = true;
     }
 }

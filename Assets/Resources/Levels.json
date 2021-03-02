@@ -1,5 +1,5 @@
 {
-  "ActiveButtons": [ "Tile3-1", "Tile3-2", "Tile3-3", "Tile3-4", "Tile3-5", "Tile4-5", "Tile4-6", "Tile4-7", "Tile3-7", "Tile2-7", "Tile2-6", "Tile2-5", "Tile2-3", "Tile1-3", "Tile4-2", "Tile5-2" ],
-  "StartTile": "Tile3-1",
-  "EndTile": "Tile2-7"
+  "ActiveButtons": [ "Tile5-4", "Tile4-4", "Tile3-4", "Tile1-4", "Tile1-3", "Tile1-2", "Tile1-6", "Tile1-5", "Tile1-7", "Tile2-7", "Tile3-7", "Tile3-6", "Tile3-5", "Tile3-2", "Tile1-1", "Tile2-1", "Tile3-1" ],
+  "StartTile": "Tile5-4",
+  "EndTile": "Tile3-2"
 }
