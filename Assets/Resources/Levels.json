@@ -1,0 +1,5 @@
+{
+  "ActiveButtons": [ "Tile3-1", "Tile3-2", "Tile3-3", "Tile3-4", "Tile3-5", "Tile4-5", "Tile4-6", "Tile4-7", "Tile3-7", "Tile2-7", "Tile2-6", "Tile2-5", "Tile2-3", "Tile1-3", "Tile4-2", "Tile5-2" ],
+  "StartTile": "Tile3-1",
+  "EndTile": "Tile2-7"
+}
