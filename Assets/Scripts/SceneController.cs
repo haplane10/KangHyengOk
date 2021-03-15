@@ -9,4 +9,9 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(txt);
     }
+
+    public void ChangeScene(string txt)
+    {
+        SceneManager.LoadScene(txt);
+    }
 }

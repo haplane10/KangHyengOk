@@ -16,21 +16,40 @@ public enum Direction
 public class BeebotController : MonoBehaviour
 {
     public RectTransform beebot;
-    [SerializeField] List<Direction> directions = new List<Direction>();
+    public List<Direction> directions = new List<Direction>();
     [SerializeField] List<Sprite> arrowSprite = new List<Sprite>();
     [SerializeField] List<Image> moveArrow = new List<Image>();
     bool isStop;
+    public int currentMoveIndex = 0;
+    public GameObject finishPanel;
+    public Text finishText;
+    public bool isSuccess;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void FinishGame() // true : SUCCESS    false : FAIL
+    {
+        finishPanel.SetActive(true);
+        finishText.text = (isSuccess == true) ? "SUCCESS" : "FAIL";
+
+        //if (isSuccess == true)
+        //{
+        //    finishText.text = "SUCCESS";
+        //}
+        //else
+        //{
+        //    finishText.text = "FAIL";
+        //}
     }
 
     public void Forward()
@@ -70,6 +89,7 @@ public class BeebotController : MonoBehaviour
     {
         for (int i = 0; i < directions.Count; i++)
         {
+            currentMoveIndex = i;
             moveArrow[i].color = new Color(0.8f, 1f, 0f, 1f);
             switch (directions[i])
             {
@@ -96,6 +116,7 @@ public class BeebotController : MonoBehaviour
             yield return new WaitUntil(() => isStop == true);
         }
 
+        FinishGame();
         directions.Clear();
     }
     
