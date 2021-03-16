@@ -11,7 +11,9 @@ public class Level : MonoBehaviour
     [SerializeField] List<string> activeButtons;
     [SerializeField] string startTile;
     [SerializeField] string endTile;
-    private static string SAVE_FOLDER;
+    private static string SAVE_FOLDER_FILE;
+    [SerializeField] Bebot bebot;
+    [SerializeField] int maxStage;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,9 @@ public class Level : MonoBehaviour
                 btn.onClick.AddListener(delegate { OnButtonClick(btn); });
             }
         }
+
+        SAVE_FOLDER_FILE = Application.dataPath + "/Resources/Levels/Levels.json";
+        GetLevelFile();
     }
 
     public void OnButtonClick(Button btn)
@@ -66,25 +71,39 @@ public class Level : MonoBehaviour
 
     public void SaveInfoFile()
     {
-        Levels newLevel = new Levels();
-        newLevel.ActiveButtons = activeButtons;
-        newLevel.StartTile = startTile;
-        newLevel.EndTile = endTile;
-        var jsonValue = JsonUtility.ToJson(newLevel);
+        Stage newStage = new Stage();
+        newStage.StageNo = maxStage + 1;
+        newStage.ActiveButtons = activeButtons;
+        newStage.StartTile = startTile;
+        newStage.EndTile = endTile;
+        bebot.Stages.Add(newStage);
+        var jsonValue = JsonUtility.ToJson(bebot);
 
-        SAVE_FOLDER = Application.dataPath + "/Resources/Levels.json";
-//#endif
         //if (!Directory.Exists(SAVE_FOLDER))
         //{
         //    Directory.CreateDirectory(SAVE_FOLDER);
         //}
 
-        File.WriteAllText(SAVE_FOLDER, jsonValue);
+        File.WriteAllText(SAVE_FOLDER_FILE, jsonValue);
+    }
+
+    public void GetLevelFile()
+    {
+        var StageData = File.ReadAllText(SAVE_FOLDER_FILE);
+
+        bebot = JsonUtility.FromJson<Bebot>(StageData);
+        maxStage = bebot.Stages.Count;
     }
 }
 
 [System.Serializable]
-public class Levels {
+public class Bebot
+{
+    public List<Stage> Stages;
+}
+[System.Serializable]
+public class Stage {
+    public int StageNo;
     public List<string> ActiveButtons;
     public string StartTile;
     public string EndTile;

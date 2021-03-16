@@ -1,0 +1,16 @@
+{
+  "Stages": [
+    {
+      "StageNo": 1,
+      "ActiveButtons": [ "Tile4-3", "Tile4-4", "Tile3-4", "Tile2-4" ],
+      "StartTile": "Tile4-3",
+      "EndTile": "Tile2-4"
+    },
+    {
+      "StageNo": 2,
+      "ActiveButtons": [ "Tile3-5", "Tile3-4", "Tile3-3", "Tile3-2" ],
+      "StartTile": "Tile3-5",
+      "EndTile": "Tile3-2"
+    }
+  ]
+}
