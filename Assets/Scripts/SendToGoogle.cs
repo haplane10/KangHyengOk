@@ -12,14 +12,12 @@ public class SendToGoogle : MonoBehaviour
     public InputField solveField;
     public InputField successField;
 
-    private string date;
     private string age;
     private string stage;
     private string solve;
     private string success;
-    private string url = "https://docs.google.com/forms/d/1TTDKUj30ZELYCMdaMfaCoochjpYx2N4zAAbncrnpDPk/formResponse";
+    private string url = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfUaosyNh0SZPlOhIYkbrCFzRFcY2zn4vXUW4qJKhjFnkJ_jQ/formResponse";
 
-    public string Date { get => date; set => date = value; }
     public string Age { get => age; set => age = value; }
     public string Stage { get => stage; set => stage = value; }
     public string Solve { get => solve; set => solve = value; }
@@ -28,8 +26,8 @@ public class SendToGoogle : MonoBehaviour
 
     public void Send()
     {
-        DateTime dateTime = DateTime.Today;
-        date = dateTime.ToString("d");
+        //DateTime dateTime = DateTime.Today;
+        //date = dateTime.ToString("d");
         age = ageField.text;
         stage = stageField.text;
         solve = solveField.text;
@@ -41,13 +39,10 @@ public class SendToGoogle : MonoBehaviour
     IEnumerator PostToGoogle()
     {
         WWWForm form = new WWWForm();
-        form.AddField("", date);
-        form.AddField("", age);
-        form.AddField("", stage);
-        form.AddField("", solve);
-        form.AddField("", success);
-
-        ;
+        form.AddField("entry.740524157", age);
+        form.AddField("entry.881140541", stage);
+        form.AddField("entry.48220974", solve);
+        form.AddField("entry.1609107582", success);
 
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
