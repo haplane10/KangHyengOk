@@ -1,17 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class DeviceCamera : MonoBehaviour
 {
-    WebCamTexture webCamTexture;
+    //WebCamTexture webCamTexture;
+    [SerializeField] new MeshRenderer renderer;
+    private WebCamDevice frontCameraDevice;
+    private WebCamTexture frontCameraTexture;
 
     void Start()
     {
+#if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+        {
+            Permission.RequestUserPermission(Permission.Camera);
+        }
+
+        if (WebCamTexture.devices.Length == 0)
+        {
+            Debug.Log("No devices cameras found");
+            return;
+        }
+
+        frontCameraDevice = WebCamTexture.devices.Last();
+        //backCameraDevice = WebCamTexture.devices.First();
+
+        frontCameraTexture = new WebCamTexture(frontCameraDevice.name);
+        //backCameraTexture = new WebCamTexture(backCameraDevice.name);
+#else
         webCamTexture = new WebCamTexture();
-        GetComponent<Renderer>().material.mainTexture = webCamTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
+        renderer.material.mainTexture = webCamTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
         webCamTexture.Play();
+#endif
     }
 
     public void OnTakePhotoButtonClick()
@@ -29,8 +53,8 @@ public class DeviceCamera : MonoBehaviour
         // http://docs.unity3d.com/ScriptReference/WaitForEndOfFrame.html
         // be sure to scroll down to the SECOND long example on that doco page 
 
-        Texture2D photo = new Texture2D(webCamTexture.width, webCamTexture.height);
-        photo.SetPixels(webCamTexture.GetPixels());
+        Texture2D photo = new Texture2D(frontCameraTexture.width, frontCameraTexture.height);
+        photo.SetPixels(frontCameraTexture.GetPixels());
         photo.Apply();
 
         //Encode to a PNG
