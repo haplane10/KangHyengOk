@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    public bool isPlayBGAudio;
+
+    private void Start()
+    {
+        GameManager.Instance.SetBGAudioStatus(isPlayBGAudio);
+    }
+
     public void ResetScene(string txt)
     {
         SceneManager.LoadScene(txt);

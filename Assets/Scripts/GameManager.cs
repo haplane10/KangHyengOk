@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public int Level = 1;
+    public AudioSource BGAudioSource;
     public AudioSource EffectAudioSource;
 
     public void NextLevel()
@@ -37,5 +38,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetBGAudioStatus(bool isPlay)
+    {
+        if (isPlay)
+        {
+            if (!BGAudioSource.isPlaying)
+                BGAudioSource.Play();
+        }
+        else
+            BGAudioSource.Pause();
     }
 }

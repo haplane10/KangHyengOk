@@ -24,6 +24,7 @@ public class BeebotController : MonoBehaviour
     public GameObject finishPanel;
     public Text finishText;
     public bool isSuccess;
+    public SendToGoogle google;
 
     // Start is called before the first frame update
     void Start()
@@ -117,7 +118,7 @@ public class BeebotController : MonoBehaviour
         }
 
         FinishGame();
-        directions.Clear();
+        //directions.Clear();
     }
     
     IEnumerator BeebotForward()

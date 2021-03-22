@@ -11,6 +11,13 @@
       "ActiveButtons": [ "Tile3-5", "Tile3-4", "Tile3-3", "Tile3-2" ],
       "StartTile": "Tile3-5",
       "EndTile": "Tile3-2"
+    },
+    {
+      "StageNo": 3,
+      "ActiveButtons": [ "Tile3-3", "Tile3-4", "Tile3-6", "Tile3-5", "Tile3-7", "Tile2-7", "Tile1-7", "Tile1-6", "Tile1-5", "Tile2-5", "Tile1-4", "Tile1-3", "Tile1-2", "Tile1-1", "Tile4-3", "Tile5-3" ],
+      "StartTile": "Tile1-1",
+      "EndTile": "Tile5-3"
     }
   ]
+
 }

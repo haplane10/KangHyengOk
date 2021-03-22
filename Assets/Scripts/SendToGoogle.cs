@@ -7,42 +7,32 @@ using UnityEngine.UI;
 
 public class SendToGoogle : MonoBehaviour
 {
-    public InputField ageField;
-    public InputField stageField;
-    public InputField solveField;
-    public InputField successField;
-
-    private string age;
+    private string id;
     private string stage;
     private string solve;
     private string success;
-    private string url = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfUaosyNh0SZPlOhIYkbrCFzRFcY2zn4vXUW4qJKhjFnkJ_jQ/formResponse";
+    private string nextMove;
+    private string url = "https://docs.google.com/forms/u/1/d/e/1FAIpQLSc2Qr40jWdyUBtFJc0HIYSwnGQBcTPSnQp8lF-OMLkWvK2AKg/formResponse";
 
-    public string Age { get => age; set => age = value; }
     public string Stage { get => stage; set => stage = value; }
     public string Solve { get => solve; set => solve = value; }
     public string Success { get => success; set => success = value; }
-    
+    public string Id { get => id; set => id = value; }
+    public string NextMove { get => nextMove; set => nextMove = value; }
 
     public void Send()
     {
-        //DateTime dateTime = DateTime.Today;
-        //date = dateTime.ToString("d");
-        age = ageField.text;
-        stage = stageField.text;
-        solve = solveField.text;
-        success = successField.text;
-
         StartCoroutine(PostToGoogle());
     }
 
     IEnumerator PostToGoogle()
     {
         WWWForm form = new WWWForm();
-        form.AddField("entry.740524157", age);
-        form.AddField("entry.881140541", stage);
-        form.AddField("entry.48220974", solve);
-        form.AddField("entry.1609107582", success);
+        form.AddField("entry.418765262", id);
+        form.AddField("entry.1715759344", stage);
+        form.AddField("entry.421502292", solve);
+        form.AddField("entry.790747918", success);
+        form.AddField("entry.1364689016", nextMove);
 
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
@@ -57,6 +47,15 @@ public class SendToGoogle : MonoBehaviour
                 Debug.Log("Form upload complete!");
             }
         }
+    }
+
+    public void SetDatas(string _id, string _stage, string _solve, string _success, string _nextMove)
+    {
+        id = _id;
+        stage = _stage;
+        solve = _solve;
+        success = _success;
+        nextMove = _nextMove;
     }
 
 }

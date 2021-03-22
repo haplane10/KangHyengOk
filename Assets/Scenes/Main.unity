@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: 1
+  BGAudioSource: {fileID: 1370784233}
   EffectAudioSource: {fileID: 1697211092}
 --- !u!4 &940848803
 Transform:
@@ -518,7 +519,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Game
+          m_StringArgument: Story
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &1323144536
@@ -944,6 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04edfced6703bd740a9a859c24c6d64d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayBGAudio: 1
 --- !u!4 &1976171850
 Transform:
   m_ObjectHideFlags: 0
