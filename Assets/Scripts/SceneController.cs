@@ -21,4 +21,17 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(txt);
     }
+
+    public void NextScene()
+    {
+        if (GameManager.Instance.NextLevel())
+        {
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            SceneManager.LoadScene("Main");
+        }
+        
+    }
 }

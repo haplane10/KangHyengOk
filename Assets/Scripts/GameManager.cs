@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,9 +11,21 @@ public class GameManager : MonoBehaviour
     public AudioSource BGAudioSource;
     public AudioSource EffectAudioSource;
 
-    public void NextLevel()
+    string levelFile;
+    [SerializeField] Bebot bebot;
+
+    public Bebot Bebot { get => bebot; set => bebot = value; }
+
+    public bool NextLevel()
     {
         Level++;
+        if (Level <= bebot.Stages.Count)
+        {
+            return true;
+        }
+
+        Level = 1;
+        return false;
     }
 
     private void Awake()
@@ -31,7 +44,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelFile = Application.dataPath + "/Resources/Levels/Levels.json";
+        LoadLevelDatas();
     }
 
     // Update is called once per frame
@@ -49,5 +63,12 @@ public class GameManager : MonoBehaviour
         }
         else
             BGAudioSource.Pause();
+    }
+
+    private void LoadLevelDatas()
+    {
+        var StageData = File.ReadAllText(levelFile);
+
+        bebot = JsonUtility.FromJson<Bebot>(StageData);
     }
 }
