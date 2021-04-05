@@ -572,6 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 152953463}
+  photoOut: {fileID: 1037358128}
   cameraText: {fileID: 1641677453}
   capturedMat: {fileID: 2100000, guid: e229fb0c14c95a54685679310eeabdb6, type: 2}
 --- !u!4 &620352300

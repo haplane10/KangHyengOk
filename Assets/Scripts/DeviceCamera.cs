@@ -11,7 +11,7 @@ public class DeviceCamera : MonoBehaviour
     //WebCamTexture webCamTexture;
     [SerializeField] new MeshRenderer renderer;
     //[SerializeField] new SpriteRenderer renderer;
-    [SerializeField] Image photoOut;
+    [SerializeField] MeshRenderer photoOut;
     private WebCamDevice frontCameraDevice;
     private WebCamTexture frontCameraTexture;
     private WebCamDevice backCameraDevice;
@@ -25,12 +25,37 @@ public class DeviceCamera : MonoBehaviour
 
     void Start()
     {
-        //#if PLATFORM_ANDROID
-        //        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
-        //        {
-        //            Permission.RequestUserPermission(Permission.Camera);
-        //        }
+        GetImageFile();
 
+#if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+        {
+            Permission.RequestUserPermission(Permission.Camera);
+        }
+
+        //if (WebCamTexture.devices.Length == 0)
+        //{
+        //    Debug.Log("No Webcam");
+        //    cameraText.text = "No devices cameras found";
+        //    return;
+        //}
+
+        frontCameraDevice = WebCamTexture.devices.Last();
+        //backCameraDevice = WebCamTexture.devices.First();
+
+        frontCameraTexture = new WebCamTexture(frontCameraDevice.name);
+        //backCameraTexture = new WebCamTexture(backCameraDevice.name);
+
+        frontCameraTexture.filterMode = FilterMode.Trilinear;
+        //backCameraTexture.filterMode = FilterMode.Trilinear;
+
+        activeCameraTexture = frontCameraTexture;
+        activeCameraDevice = WebCamTexture.devices.FirstOrDefault(device => device.name == frontCameraTexture.deviceName);
+
+        renderer.material.mainTexture = activeCameraTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
+        activeCameraTexture.Play();
+#else
+        
         if (WebCamTexture.devices.Length == 0)
         {
             Debug.Log("No Webcam");
@@ -38,25 +63,10 @@ public class DeviceCamera : MonoBehaviour
             return;
         }
 
-        //        frontCameraDevice = WebCamTexture.devices.Last();
-        //        //backCameraDevice = WebCamTexture.devices.First();
-
-        //        frontCameraTexture = new WebCamTexture(frontCameraDevice.name);
-        //        //backCameraTexture = new WebCamTexture(backCameraDevice.name);
-
-        //        frontCameraTexture.filterMode = FilterMode.Trilinear;
-        //        //backCameraTexture.filterMode = FilterMode.Trilinear;
-
-        //        activeCameraTexture = frontCameraTexture;
-        //        activeCameraDevice = WebCamTexture.devices.FirstOrDefault(device => device.name == frontCameraTexture.deviceName);
-
-        //        renderer.material.mainTexture = activeCameraTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
-        //        activeCameraTexture.Play();
-        //#else
         activeCameraTexture = new WebCamTexture();
         renderer.material.mainTexture = activeCameraTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
         activeCameraTexture.Play();
-//#endif
+#endif
     }
 
     public void OnTakePhotoButtonClick()
@@ -77,12 +87,33 @@ public class DeviceCamera : MonoBehaviour
         photo = new Texture2D(activeCameraTexture.width, activeCameraTexture.height);
         photo.SetPixels(activeCameraTexture.GetPixels());
         photo.Apply();
-        photoOut.sprite = Sprite.Create(photo, new Rect(), new Vector2(0.5f, 0.5f));
+        photoOut.material.mainTexture = photo;
         //capturedMat.mainTexture = photo;
 
-        ////Encode to a PNG
-        //byte[] bytes = photo.EncodeToPNG();
-        ////Write out the PNG. Of course you have to substitute your_path for something sensible
-        //File.WriteAllBytes(Application.dataPath + "/Resources/photo.png", bytes);
+        //Encode to a PNG
+        byte[] bytes = photo.EncodeToPNG();
+        //Write out the PNG. Of course you have to substitute your_path for something sensible
+        cameraText.text = Application.persistentDataPath + "/UserPicture/photo.png";
+        File.WriteAllBytes(Application.persistentDataPath + "/UserPicture/photo.png", bytes);
+    }
+
+    void GetImageFile()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/UserPicture"))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/UserPicture");
+        }
+        else
+        {
+            cameraText.text = Directory.GetFiles(Application.persistentDataPath + "/UserPicture").Length.ToString();
+        }
+
+        if (File.Exists(Application.persistentDataPath + "/UserPicture/photo.png")) {
+            byte[] byteArray = File.ReadAllBytes(Application.persistentDataPath + "/UserPicture/photo.png");
+            Texture2D texture = new Texture2D(8, 8);
+            texture.LoadImage(byteArray);
+            //Sprite s = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 1f);
+            photoOut.material.mainTexture = texture;
+        }
     }
 }
