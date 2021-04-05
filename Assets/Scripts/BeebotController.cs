@@ -41,7 +41,7 @@ public class BeebotController : MonoBehaviour
     public void FinishGame() // true : SUCCESS    false : FAIL
     {
         finishPanel.SetActive(true);
-        finishText.text = (isSuccess == true) ? "SUCCESS" : "FAIL";
+        GameManager.Instance.Report.Success = finishText.text = (isSuccess == true) ? "SUCCESS" : "FAIL";
 
         //if (isSuccess == true)
         //{
@@ -83,7 +83,19 @@ public class BeebotController : MonoBehaviour
 
     public void PlayBeebot()
     {
+        DirectionToString();
         StartCoroutine(MoveBeebot());
+    }
+
+    void DirectionToString()
+    {
+        string collectDir = "";
+        foreach (var dir in directions)
+        {
+            collectDir += (dir.ToString() + ", ");
+        }
+
+        GameManager.Instance.Report.Solve = collectDir;
     }
 
     IEnumerator MoveBeebot()

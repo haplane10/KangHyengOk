@@ -13,6 +13,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         SetTiles();
+        GameManager.Instance.Report.Stage = stage.StageNo.ToString();
     }
 
     // Update is called once per frame

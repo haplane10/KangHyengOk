@@ -11,10 +11,14 @@ public class GameManager : MonoBehaviour
     public AudioSource BGAudioSource;
     public AudioSource EffectAudioSource;
 
+    [SerializeField] private SendToGoogle sendToGoogle;
+
     string levelFile;
     [SerializeField] Bebot bebot;
+    [SerializeField] Report report;
 
     public Bebot Bebot { get => bebot; set => bebot = value; }
+    public Report Report { get => report; set => report = value; }
 
     public bool NextLevel()
     {
@@ -26,6 +30,11 @@ public class GameManager : MonoBehaviour
 
         Level = 1;
         return false;
+    }
+
+    public void SendDataToGoogle()
+    {
+        sendToGoogle.Send(report);
     }
 
     private void Awake()
@@ -45,6 +54,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         levelFile = Application.dataPath + "/Resources/Levels/Levels.json";
+
         LoadLevelDatas();
     }
 
@@ -68,7 +78,16 @@ public class GameManager : MonoBehaviour
     private void LoadLevelDatas()
     {
         var StageData = File.ReadAllText(levelFile);
-
         bebot = JsonUtility.FromJson<Bebot>(StageData);
     }
+}
+
+[System.Serializable]
+public class Report
+{
+    public string ID;
+    public string Stage;
+    public string Solve;
+    public string Success;
+    public string NextMove;
 }

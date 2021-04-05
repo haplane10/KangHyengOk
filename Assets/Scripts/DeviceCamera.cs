@@ -10,6 +10,8 @@ public class DeviceCamera : MonoBehaviour
 {
     //WebCamTexture webCamTexture;
     [SerializeField] new MeshRenderer renderer;
+    //[SerializeField] new SpriteRenderer renderer;
+    [SerializeField] Image photoOut;
     private WebCamDevice frontCameraDevice;
     private WebCamTexture frontCameraTexture;
     private WebCamDevice backCameraDevice;
@@ -23,37 +25,38 @@ public class DeviceCamera : MonoBehaviour
 
     void Start()
     {
-#if PLATFORM_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
-        {
-            Permission.RequestUserPermission(Permission.Camera);
-        }
+        //#if PLATFORM_ANDROID
+        //        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+        //        {
+        //            Permission.RequestUserPermission(Permission.Camera);
+        //        }
 
         if (WebCamTexture.devices.Length == 0)
         {
-            cameraText.text = "No devices cameras found";
+            Debug.Log("No Webcam");
+            //cameraText.text = "No devices cameras found";
             return;
         }
 
-        frontCameraDevice = WebCamTexture.devices.Last();
-        //backCameraDevice = WebCamTexture.devices.First();
+        //        frontCameraDevice = WebCamTexture.devices.Last();
+        //        //backCameraDevice = WebCamTexture.devices.First();
 
-        frontCameraTexture = new WebCamTexture(frontCameraDevice.name);
-        //backCameraTexture = new WebCamTexture(backCameraDevice.name);
+        //        frontCameraTexture = new WebCamTexture(frontCameraDevice.name);
+        //        //backCameraTexture = new WebCamTexture(backCameraDevice.name);
 
-        frontCameraTexture.filterMode = FilterMode.Trilinear;
-        //backCameraTexture.filterMode = FilterMode.Trilinear;
+        //        frontCameraTexture.filterMode = FilterMode.Trilinear;
+        //        //backCameraTexture.filterMode = FilterMode.Trilinear;
 
-        activeCameraTexture = frontCameraTexture;
-        activeCameraDevice = WebCamTexture.devices.FirstOrDefault(device => device.name == frontCameraTexture.deviceName);
+        //        activeCameraTexture = frontCameraTexture;
+        //        activeCameraDevice = WebCamTexture.devices.FirstOrDefault(device => device.name == frontCameraTexture.deviceName);
 
+        //        renderer.material.mainTexture = activeCameraTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
+        //        activeCameraTexture.Play();
+        //#else
+        activeCameraTexture = new WebCamTexture();
         renderer.material.mainTexture = activeCameraTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
         activeCameraTexture.Play();
-#else
-        webCamTexture = new WebCamTexture();
-        renderer.material.mainTexture = webCamTexture; //Add Mesh Renderer to the GameObject to which this script is attached to
-        webCamTexture.Play();
-#endif
+//#endif
     }
 
     public void OnTakePhotoButtonClick()
@@ -71,11 +74,12 @@ public class DeviceCamera : MonoBehaviour
         // http://docs.unity3d.com/ScriptReference/WaitForEndOfFrame.html
         // be sure to scroll down to the SECOND long example on that doco page 
 
-        photo = new Texture2D(frontCameraTexture.width, frontCameraTexture.height);
-        photo.SetPixels(frontCameraTexture.GetPixels());
+        photo = new Texture2D(activeCameraTexture.width, activeCameraTexture.height);
+        photo.SetPixels(activeCameraTexture.GetPixels());
         photo.Apply();
+        photoOut.sprite = Sprite.Create(photo, new Rect(), new Vector2(0.5f, 0.5f));
+        //capturedMat.mainTexture = photo;
 
-        capturedMat.mainTexture = photo;
         ////Encode to a PNG
         //byte[] bytes = photo.EncodeToPNG();
         ////Write out the PNG. Of course you have to substitute your_path for something sensible
