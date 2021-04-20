@@ -14,5 +14,5 @@
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
     </application>
-  <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

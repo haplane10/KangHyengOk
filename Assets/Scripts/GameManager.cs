@@ -53,8 +53,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelFile = Application.dataPath + "/Resources/Levels/Levels.json";
-
         LoadLevelDatas();
     }
 
@@ -77,8 +75,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevelDatas()
     {
-        var StageData = File.ReadAllText(levelFile);
-        bebot = JsonUtility.FromJson<Bebot>(StageData);
+        var levelFile = (TextAsset)Resources.Load("Levels/Levels");
+        bebot = JsonUtility.FromJson<Bebot>(levelFile.text);
     }
 }
 
